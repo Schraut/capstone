@@ -1,4 +1,4 @@
-class UsersController < ApplicationController
+class V1::UsersController < ApplicationController
   def create
     user = User.new(
       name: params[:name],
@@ -6,11 +6,11 @@ class UsersController < ApplicationController
       password: params[:password],
       password_confirmation: params[:password_confirmation]
     )
-
     if user.save
-      render json: {message: "You just made your user login!"}
+      render json: {status: 'User created successfully'}, status: :created
     else
-      render json: {errors: user.errors.full_messages}
+      render json: {errors: user.errors.full_messages}, status: :bad_request
     end
   end
+
 end
