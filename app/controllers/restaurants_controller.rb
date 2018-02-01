@@ -2,18 +2,22 @@ class RestaurantsController < ApplicationController
   
   def index
     the_restaurants = Restaurant.all
+    p "here is the current user"
+    p current_user
     render json:the_restaurants.as_json
   end
 
   def show
     restaurant = Restaurant.find_by(id: params[:id])
+    
     render json: restaurant.as_json
   end
 
   def create
     restaurant = Restaurant.new(
       name: params[:name],
-      location: params[:location]
+      location: params[:location],
+      image: params[:image]
     )
     if restaurant.save
       render json: restaurant.as_json
@@ -27,7 +31,8 @@ class RestaurantsController < ApplicationController
     restaurant = Restaurant.find_by(id: the_id)
     if restaurant.update(
       name: params[:name],
-      location: params[:location]
+      location: params[:location],
+      image: params[:image]
     )
       render json: restaurant.as_json
     else
