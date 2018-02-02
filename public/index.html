@@ -95,7 +95,7 @@
             <span class="section-heading-upper">Fresh Burrito</span>
             <span class="section-heading-lower">Some text</span>
           </h2>
-          <p class="mb-3">Every cup of our quality artisan coffee starts with locally sourced, hand picked ingredients. Once you try it, our coffee will be a blissful addition to your everyday morning routine - we guarantee it!
+          <p class="mb-3">Maybe I could write some cool stuff here?
           </p>
           <div class="intro-button mx-auto">
             <a class="btn btn-primary btn-xl" href="/#/signup">Click to Signup!</a>
@@ -145,7 +145,6 @@
         </div>
       </div>
     </section>
-    <h1>{{ message }}</h1>
   </div>
 
 </template>
@@ -230,14 +229,17 @@
 <template id="all-restaurants">
   <div class="vue-component">
       <h1>Restaurant</h1>
-       
-  <div v-for="restaurant in restaurants">
-    <h1>{{ restaurant.name }}</h1>
-    <p>{{ restaurant.location }}</p>
-    <p><b>image</b>:
-      <img class="image" width="200px" v-bind:src="restaurant.image">
-    </p>
-  </div>    
+         
+    <div v-for="restaurant in restaurants">
+      <h1>{{ restaurant.name }}</h1>
+      <p>{{ restaurant.location }}</p>
+      <p><b>image</b>:
+        <img class="image" width="200px" v-bind:src="restaurant.image">
+      </p>
+      <button v-on:click="deleteRestaurant(restaurant.id)">
+        Delete restaurant
+      </button>
+    </div>    
   </div>
 </template>
 
@@ -268,17 +270,10 @@
 
 
 <template id="delete-restaurant-page">
-  <div class="vue-component">
-    <div class="container">
-      <h1>delete restaurant</h1>
-      <ul>
-        <li class="text-danger" v-for="error in errors">{{ error }}</li>
-      </ul>
-      <div class="form-group">
-        <label>ID:</label>
-        <input type="text" class="form-control" v-model="restaurant.id">
-      </div>
-        <button class="btn btn-primary" v-on:click="DeleteRestaurant()">Edit a restaurant</button>
-    </div>
-  </div>
+  <h2>Delete restaurant {{ restaurant.name }}</h2>
+  <form v-on:submit="deleteRestaurant">
+    <p>The action cannot be undone.</p>
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a v-link="'/'" class="btn btn-default">Cancel</a>
+  </form>
 </template>

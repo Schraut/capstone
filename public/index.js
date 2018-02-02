@@ -124,7 +124,12 @@ var AllRestaurants = {
       console.log('this is all restaurants')
     }.bind(this));
   },
-  methods: {},
+  methods: {
+    deleteRestaurant: function(restaurant_id) {
+      axios.delete('/restaurants/' + restaurant_id)
+      console.log(restaurant_id);
+    }
+  },
   computed: {}
 };
 
@@ -166,41 +171,18 @@ var EditRestaurantPage = {
 };
 
 
-// var DeleteRestaurantPage = {
-//   template: "#delete-restaurant-page",
-//   data: function() {
-//     return {
-//       restaurant: {},
-//       errors: []
-//     };
-//   },
-//   methods: {
-//     DeleteRestaurant: function() {
-//       var params = {
-//         name: this.restaurant.name,
-//         location: this.restaurant.location,
-//         image: this.restaurant.image
-//       };
-//       console.log(params);
-//       axios
-//         .delete("/restaurants/" + this.$route.params.id, params)
-//         .then(function(response) {
-//           router.push("/");
-//         })
-//         .catch(
-//           function(error) {
-//             this.errors = error.response.data.errors;
-//           }.bind(this)
-//         );
-//     }
-//   },
-//   created: function() {
-//     console.log('this is the delete page');
-//     axios.get('/rest/' + this.$route.params.id).then(function(response) {
-//       this.restaurant = response.data;
-//     }.bind(this));
-//   }
-// };
+var DeleteRestaurantPage = Vue.extend({
+  template: '#delete-restaurant-page',
+  data: function () {
+    return {restaurant: findRestaurant(this.$route.params.restaurant_id)};
+  },
+  methods: {
+    deleteRestaurant: function () {
+      restaurants.splice(findRestaurantKey(this.$route.params.restaurant_id), 1);
+      router.go('/');
+    }
+  }
+});
 
 
 var router = new VueRouter({
@@ -210,7 +192,6 @@ var router = new VueRouter({
   { path: "/login", component: LoginPage },
   { path: "/logout", component: LogoutPage },
   { path: "/restaurants/:id/edit", component: EditRestaurantPage },
-  // { path: "/restaurants/:id/delete", component: DeleteRestaurantPage },
   { path: "/restaurants/:id", component: RestaurantPage},
   { path: "/recipes", component: RecipePage},
   { path: "/restaurants", component: AllRestaurants}
