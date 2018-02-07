@@ -29,10 +29,7 @@
 
   <body>
     <div id="vue-app">
-      <h1 class="site-heading text-center text-white d-none d-lg-block">
-        <span class="site-heading-upper text-primary mb-3">Welcome To The</span>
-        <span class="site-heading-lower">Food App</span>
-      </h1>
+      
 
       <!-- Navigation -->
       <nav class="navbar navbar-expand-lg navbar-dark py-lg-4" id="mainNav">
@@ -86,6 +83,10 @@
 <!-- Home page -->
 <template id="home-page">
   <div>
+    <h1 class="site-heading text-center text-white d-none d-lg-block">
+      <span class="site-heading-upper text-primary mb-3">Welcome To The</span>
+      <span class="site-heading-lower">Food App</span>
+    </h1>
   <section class="page-section clearfix">
     <div class="container">
       <div class="intro">
@@ -160,8 +161,8 @@
 <template id="all-restaurants">
   <div class="vue-component">
     <div class="container">
-    <a class="btn btn-primary center-block" href="/#/restaurants/new">Click here to add a restaurant!</a>
-      <div class="row">
+    <a class="btn btn-primary btn-lg btn-block" href="/#/restaurants/new">Click To Add Restaurant!</a>
+      <div class="col-sm-6">
         <div class="card">
           <div class="card-body">
             <div v-for="restaurant in restaurants">
@@ -184,37 +185,11 @@
 </template>
 
 
-<!-- Edit restaurant page -->
-<template id="edit-restaurant-page">
-  <div class="vue-component">
-    <div class="container">
-      <h1>Edit restaurant</h1>
-      <ul>
-        <li class="text-danger" v-for="error in errors">{{ error }}</li>
-      </ul>
-      <div class="form-group">
-        <label>Name:</label>
-        <input type="text" class="form-control" v-model="restaurant.name">
-      </div>
-      <div class="form-group">
-        <label>Location:</label>
-        <input type="email" class="form-control" v-model="restaurant.location">
-      </div>
-      <div class="form-group">
-        <label>Image:</label>
-        <input type="text" class="form-control" v-model="restaurant.image">
-      </div>
-        <button class="btn btn-primary" v-on:click="editRestaurant()">Edit a restaurant</button>
-    </div>
-  </div>
-</template>
-
-
 <!-- New restaurant page -->
 <template id="new-restaurant-page">
   <div class="vue-component">
     <div class="container">
-      <h1>Add a new restaurant</h1>
+      <h1>Add A New Restaurant</h1>
       <ul>
         <li class="text-danger" v-for="error in errors">{{ error }}</li>
       </ul>
@@ -228,10 +203,10 @@
       </div>
       
       <div class="form-group">
-        <label>Image URL:</label>
+        <label>Add Image URL:</label>
         <input type="text" class="form-control" v-model="image">
       </div>
-      <button class="btn btn-primary" v-on:click="addRestaurant()">Add new restaurant!</button>
+      <button class="btn btn-primary" v-on:click="addRestaurant()">Add New Restaurant!</button>
     </div>
   </div>
 </template>
