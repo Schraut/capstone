@@ -30,7 +30,7 @@
   <body>
     <div id="vue-app">
       <h1 class="site-heading text-center text-white d-none d-lg-block">
-        <span class="site-heading-upper text-primary mb-3">Here is some text</span>
+        <span class="site-heading-upper text-primary mb-3">Welcome To The</span>
         <span class="site-heading-lower">Food App</span>
       </h1>
 
@@ -51,9 +51,6 @@
               <li class="nav-item px-lg-4">
                 <a class="nav-link text-uppercase text-expanded" href="/#/restaurants">Restaurants</a>
               </li>
-              <!-- <li class="nav-item px-lg-4">
-                <a class="nav-link text-uppercase text-expanded" href="/#/recipe">Recipe</a>
-              </li> -->
               <li class="nav-item px-lg-4">
                 <a class="nav-link text-uppercase text-expanded" href="/#/signup">Signup</a>
               </li>
@@ -85,92 +82,32 @@
     
 </html>
 
+
+<!-- Home page -->
 <template id="home-page">
+  <div>
   <section class="page-section clearfix">
     <div class="container">
       <div class="intro">
         <img class="intro-img img-fluid mb-3 mb-lg-0 rounded" src="img/burrito.jpeg" alt="">
         <div class="intro-text left-0 text-center bg-faded p-5 rounded">
           <h2 class="section-heading mb-4">
-            <span class="section-heading-upper">Fresh Burrito</span>
-            <span class="section-heading-lower">Some text</span>
+            <span class="section-heading-upper">Did you forget the restaurant you liked?</span>
+            <span class="section-heading-lower">Save it here!</span>
           </h2>
-          <p class="mb-3">Maybe I could write some cool stuff here?
+          <p class="mb-3">Save all of your restaurants here to keep track of the places you eat.
           </p>
           <div class="intro-button mx-auto">
-            <a class="btn btn-primary btn-xl" href="/#/signup">Click to Signup!</a>
+            <a class="btn btn-primary btn-xl" href="/#/signup">Click to create an account!</a>
           </div>
         </div>
       </div>
     </div>
   </section>
-
-  <section class="page-section cta">
-    <div class="container">
-      <div class="row">
-        <div class="col-xl-9 mx-auto">
-          <div class="cta-inner text-center rounded">
-            <h2 class="section-heading mb-4">
-              <span class="section-heading-upper">Our Promise</span>
-              <span class="section-heading-lower">To You</span>
-            </h2>
-            <p class="mb-0">When you walk into our shop to start your day, we are dedicated to providing you with friendly service, a welcoming atmosphere, and above all else, excellent products made with the highest quality ingredients. If you are not satisfied, please let us know and we will do whatever we can to make things right!</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  <h1>{{ message }}</h1>
-
 </template>
 
-<template id="restaurant-page">
-  <div class="container">
-    <section class="page-section about-heading">
-      <div class="container">
-        <img class="img-fluid rounded about-heading-img mb-3 mb-lg-0" src="img/about.jpg" alt="">
-        <div class="about-heading-content">
-          <div class="row">
-            <div class="col-xl-9 col-lg-10 mx-auto">
-              <div class="bg-faded rounded p-5">
-                <h2 class="section-heading mb-4">
-                  <span class="section-heading-upper">Strong Coffee, Strong Roots</span>
-                  <span class="section-heading-lower">Restaurants</span>
-                </h2>
-                <p>Founded in 1987 by the Hernandez brothers, our establishment has been serving up rich coffee sourced from artisan farmers in various regions of South and Central America. We are dedicated to travelling the world, finding the best coffee, and bringing back to you here in our cafe.</p>
-                <p class="mb-0">We guarantee that you will fall in <em>lust</em> with our decadent blends the moment you walk inside until you finish your last sip. Join us for your daily routine, an outing with friends, or simply just to enjoy some alone time.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  </div>
 
-</template>
-
-<template id="recipe-page">
-  <div>
-  <section class="page-section cta">
-    <div class="container">
-      <div class="row">
-        <div class="col-xl-9 mx-auto">
-          <div class="cta-inner text-center rounded">
-            <h2 class="section-heading mb-4">
-              <span class="section-heading-upper">Recipes</span>
-              <span class="section-heading-lower">Recipe Page under construcion</span>
-            </h2>
-            <p class="mb-0">This is the recipe page</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-    <h1>{{ message }}</h1>
-  
-  </div>
-</template>
-
+<!-- Signup page -->
 <template id="signup-page">
   <div class="vue-component">
     <div class="container">
@@ -197,6 +134,7 @@
 </template>
 
 
+<!-- Login page -->
 <template id="login-page">
   <div class="vue-component">
     <div class="container">
@@ -217,33 +155,36 @@
   </div>
 </template>
 
-<template id="show-restaurant">
-  <div class="vue-component">
-      <h1>Restaurant</h1>
-        <h5 class="name">Name: {{ restaurant.name }}</h5>
-        <p class="location"><b>Location</b>: {{ restaurant.location }}</p>
-      
-  </div>
-</template>
 
+<!-- All restaurants -->
 <template id="all-restaurants">
   <div class="vue-component">
-      <h1>Restaurant</h1>
-         
-    <div v-for="restaurant in restaurants">
-      <h1>{{ restaurant.name }}</h1>
-      <p>{{ restaurant.location }}</p>
-      <p><b>image</b>:
-        <img class="image" width="200px" v-bind:src="restaurant.image">
-      </p>
-      <button v-on:click="deleteRestaurant(restaurant.id)">
-        Delete restaurant
-      </button>
+    <div class="container">
+    <a class="btn btn-primary center-block" href="/#/restaurants/new">Click here to add a restaurant!</a>
+      <div class="row">
+        <div class="card">
+          <div class="card-body">
+            <div v-for="restaurant in restaurants">
+              <h1 class="card-title name">{{ restaurant.name }}</h1>
+              <p class="card-text location">{{ restaurant.location }}</p>
+              <p><b></b>
+              <img class="image" width="200px" v-bind:src="restaurant.image">
+              </p>
+              
+              <button v-on:click="deleteRestaurant(restaurant.id)">
+                Delete
+              </button>
+              <hr>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>    
   </div>
 </template>
 
 
+<!-- Edit restaurant page -->
 <template id="edit-restaurant-page">
   <div class="vue-component">
     <div class="container">
@@ -269,11 +210,28 @@
 </template>
 
 
-<template id="delete-restaurant-page">
-  <h2>Delete restaurant {{ restaurant.name }}</h2>
-  <form v-on:submit="deleteRestaurant">
-    <p>The action cannot be undone.</p>
-    <button type="submit" class="btn btn-danger">Delete</button>
-    <a v-link="'/'" class="btn btn-default">Cancel</a>
-  </form>
+<!-- New restaurant page -->
+<template id="new-restaurant-page">
+  <div class="vue-component">
+    <div class="container">
+      <h1>Add a new restaurant</h1>
+      <ul>
+        <li class="text-danger" v-for="error in errors">{{ error }}</li>
+      </ul>
+      <div class="form-group">
+        <label>Name:</label>
+        <input type="text" class="form-control" v-model="name">
+      </div>
+      <div class="form-group">
+        <label>Location:</label>
+        <input type="text" class="form-control" v-model="location">
+      </div>
+      
+      <div class="form-group">
+        <label>Image URL:</label>
+        <input type="text" class="form-control" v-model="image">
+      </div>
+      <button class="btn btn-primary" v-on:click="addRestaurant()">Add new restaurant!</button>
+    </div>
+  </div>
 </template>

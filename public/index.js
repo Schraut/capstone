@@ -101,13 +101,7 @@ var LoginPage = {
 };
 
 
-var LogoutPage = {
-  created: function() {
-    axios.defaults.headers.common["Authorization"] = undefined;
-    localStorage.removeItem("jwt");
-    router.push("/");
-  }
-};
+
 
 
 var AllRestaurants = {
@@ -126,10 +120,16 @@ var AllRestaurants = {
   },
   methods: {
     deleteRestaurant: function(restaurant_id) {
-      axios.delete('/restaurants/' + restaurant_id)
-      console.log(restaurant_id);
+      axios.delete('/restaurants/' + restaurant_id).then(function(response) {
+        this.restaurants.splice(this.restaurants.indexOf(restaurant_id), 1);
+        router.push('/restaurants');
+      }.bind(this));
+
+      // console.log(restaurant_id);
+
     }
   },
+  
   computed: {}
 };
 
@@ -171,19 +171,47 @@ var EditRestaurantPage = {
 };
 
 
-var DeleteRestaurantPage = Vue.extend({
-  template: '#delete-restaurant-page',
-  data: function () {
-    return {restaurant: findRestaurant(this.$route.params.restaurant_id)};
+var NewRestaurantPage = {
+  template: "#new-restaurant-page",
+  data: function() {
+    return {
+      name: "",
+      location: "",
+      image: "",
+      errors: []
+    };
+  },
+  created: function() {
+    console.log('New restaurant page');
   },
   methods: {
-    deleteRestaurant: function () {
-      restaurants.splice(findRestaurantKey(this.$route.params.restaurant_id), 1);
-      router.go('/');
+    addRestaurant: function() {
+      var params = {
+        name: this.name,
+        location: this.location,
+        image: this.image
+      };
+      axios
+        .post("restaurants", params)
+        .then(function(response) {
+          router.push("/restaurants");
+        })
+        .catch(
+          function(error) {
+            this.errors = error.response.data.errors;
+          }.bind(this)
+        );
     }
   }
-});
+};
 
+var LogoutPage = {
+  created: function() {
+    axios.defaults.headers.common["Authorization"] = undefined;
+    localStorage.removeItem("jwt");
+    router.push("/");
+  }
+};
 
 var router = new VueRouter({
   routes: [
@@ -192,6 +220,7 @@ var router = new VueRouter({
   { path: "/login", component: LoginPage },
   { path: "/logout", component: LogoutPage },
   { path: "/restaurants/:id/edit", component: EditRestaurantPage },
+  { path: "/restaurants/new", component: NewRestaurantPage },
   { path: "/restaurants/:id", component: RestaurantPage},
   { path: "/recipes", component: RecipePage},
   { path: "/restaurants", component: AllRestaurants}
@@ -203,5 +232,11 @@ var router = new VueRouter({
 
 var app = new Vue({
   el: "#vue-app",
-  router: router
+  router: router,
+  created: function() {
+    var jwt = localStorage.getItem("jwt");
+    if (jwt) {
+      axios.defaults.headers.common["Authorization"] = jwt;
+    }
+  }
 });
