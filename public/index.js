@@ -23,17 +23,17 @@ var RestaurantPage = {
   computed: {}
 };
 
-var RecipePage = {
-  template: "#recipe-page",
-  data: function() {
-    return {
-      message: "Welcome to the recipe page!"
-    };
-  },
-  created: function() {},
-  methods: {},
-  computed: {}
-};
+// var RecipePage = {
+//   template: "#recipe-page",
+//   data: function() {
+//     return {
+//       message: "Welcome to the recipe page!"
+//     };
+//   },
+//   created: function() {},
+//   methods: {},
+//   computed: {}
+// };
 
 
 var SignupPage = {
@@ -134,6 +134,35 @@ var AllRestaurants = {
 };
 
 
+var AllRecipes = {
+  template: "#all-recipes",
+  data: function() {
+    return {
+      recipes: {}
+    };
+  },
+  created: function() {
+    console.log('recipes is working');
+    axios.get('/recipes').then(function(response) {
+      this.recipes = response.data;
+      console.log('this is all recipes')
+    }.bind(this));
+  },
+  methods: {
+    deleteRecipe: function(recipe_id) {
+      axios.delete('/recipes/' + recipe_id).then(function(response) {
+        this.recipes.splice(this.recipes.indexOf(recipe_id), 1);
+        router.push('/recipes');
+      }.bind(this));
+
+
+    }
+  },
+  
+  computed: {}
+};
+
+
 var EditRestaurantPage = {
   template: "#edit-restaurant-page",
   data: function() {
@@ -205,6 +234,42 @@ var NewRestaurantPage = {
   }
 };
 
+var RecipePage = {
+  template: "#recipe-page",
+  data: function() {
+    return {
+      title: "",
+      ingredients: "",
+      directions: "",
+      source: "",
+      errors: []
+    };
+  },
+  created: function() {
+    console.log('Recipe page');
+  },
+  methods: {
+    addRecipe: function() {
+      var params = {
+        title: this.title,
+        ingredients: this.ingredients,
+        directions: this.directions,
+        source: this.source
+      };
+      axios
+        .post("recipes", params)
+        .then(function(response) {
+          router.push("/recipes");
+        })
+        .catch(
+          function(error) {
+            this.errors = error.response.data.errors;
+          }.bind(this)
+        );
+    }
+  }
+};
+
 var LogoutPage = {
   created: function() {
     axios.defaults.headers.common["Authorization"] = undefined;
@@ -222,7 +287,7 @@ var router = new VueRouter({
   { path: "/restaurants/:id/edit", component: EditRestaurantPage },
   { path: "/restaurants/new", component: NewRestaurantPage },
   { path: "/restaurants/:id", component: RestaurantPage},
-  { path: "/recipes", component: RecipePage},
+  { path: "/recipes", component: AllRecipes},
   { path: "/restaurants", component: AllRestaurants}
   ],
   scrollBehavior: function(to, from, savedPosition) {

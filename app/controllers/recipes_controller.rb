@@ -5,18 +5,19 @@ class RecipesController < ApplicationController
   end
 
   def show
-   recipe = Recipe.find_by(id: params[:id])
+    recipe = Recipe.find_by(id: params[:id])
     render json:recipe.as_json
   end
 
   def create
-   recipe = Recipe.new(
+    recipe = Recipe.new(
       title: params[:title],
       ingredients: params[:ingredients],
       directions: params[:directions],
-      source: params[:source]
+      source: params[:source],
+      user_id: current_user.id
     )
-    ifrecipe.save
+    if recipe.save
       render json:recipe.as_json
     else
       render json: {errors:recipe.errors.full_messages}
@@ -40,6 +41,7 @@ class RecipesController < ApplicationController
     the_id = params[:id]
     recipe = Recipe.find(the_id)
     recipe.destroy
-    render json: {message: "You have removed this restaurant"}
+    render json: {message: "You have removed this recipe"}
   end
+end  
 
