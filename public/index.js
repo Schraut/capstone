@@ -1,3 +1,5 @@
+/* global Vue, VueRouter, axios */
+
 /////// HOME PAGE \\\\\\\
 var HomePage = {
   template: "#home-page",
