@@ -1,3 +1,4 @@
+/////// HOME PAGE \\\\\\\
 var HomePage = {
   template: "#home-page",
   data: function() {
@@ -11,50 +12,31 @@ var HomePage = {
 };
 
 
+/////// Restaurants \\\\\\\
 var RestaurantPage = {
   template: "#restaurant-page",
   data: function() {
     return {
-      message: "Welcome to the restaurant page!"
+      name: "",
+      location: "",
+      image: "",
+      errors: []
     };
   },
-  created: function() {},
-  methods: {},
-  computed: {}
-};
-
-// var RecipePage = {
-//   template: "#recipe-page",
-//   data: function() {
-//     return {
-//       message: "Welcome to the recipe page!"
-//     };
-//   },
-//   created: function() {},
-//   methods: {},
-//   computed: {}
-// };
-
-
-var SignupPage = {
-  template: "#signup-page",
-  data: function() {
-    return {      
-    };
+  created: function() {
+    console.log('Restaurant page');
   },
-  
   methods: {
-    submit: function() {
+    addRestaurant: function() {
       var params = {
         name: this.name,
-        email: this.email,
-        password: this.password,
-        password_confirmation: this.passwordConfirmation
+        location: this.location,
+        image: this.image
       };
       axios
-        .post("/users", params)
+        .post("restaurants", params)
         .then(function(response) {
-          router.push("/login");
+          router.push("/restaurants");
         })
         .catch(
           function(error) {
@@ -62,47 +44,8 @@ var SignupPage = {
           }.bind(this)
         );
     }
-  },
-  computed: {}
-};
-
-
-var LoginPage = {
-  template: "#login-page",
-  data: function() {
-    return {
-      email: "",
-      password: "",
-      errors: []
-    };
-  },
-  methods: {
-    submit: function() {
-      var params = {
-        auth: { email: this.email, password: this.password }
-      };
-      axios
-        .post("/user_token", params)
-        .then(function(response) {
-          axios.defaults.headers.common["Authorization"] =
-            "Bearer " + response.data.jwt;
-          localStorage.setItem("jwt", response.data.jwt);
-          router.push("/");
-        })
-        .catch(
-          function(error) {
-            this.errors = ["Invalid email or password."];
-            this.email = "";
-            this.password = "";
-          }.bind(this)
-        );
-    }
   }
 };
-
-
-
-
 
 var AllRestaurants = {
   template: "#all-restaurants",
@@ -132,36 +75,6 @@ var AllRestaurants = {
   
   computed: {}
 };
-
-
-var AllRecipes = {
-  template: "#all-recipes",
-  data: function() {
-    return {
-      recipes: {}
-    };
-  },
-  created: function() {
-    console.log('recipes is working');
-    axios.get('/recipes').then(function(response) {
-      this.recipes = response.data;
-      console.log('this is all recipes')
-    }.bind(this));
-  },
-  methods: {
-    deleteRecipe: function(recipe_id) {
-      axios.delete('/recipes/' + recipe_id).then(function(response) {
-        this.recipes.splice(this.recipes.indexOf(recipe_id), 1);
-        router.push('/recipes');
-      }.bind(this));
-
-
-    }
-  },
-  
-  computed: {}
-};
-
 
 var EditRestaurantPage = {
   template: "#edit-restaurant-page",
@@ -200,38 +113,33 @@ var EditRestaurantPage = {
 };
 
 
-var NewRestaurantPage = {
-  template: "#new-restaurant-page",
+/////// Recipes \\\\\\\
+var AllRecipes = {
+  template: "#all-recipes",
   data: function() {
     return {
-      name: "",
-      location: "",
-      image: "",
-      errors: []
+      recipes: {}
     };
   },
   created: function() {
-    console.log('New restaurant page');
+    console.log('recipes is working');
+    axios.get('/recipes').then(function(response) {
+      this.recipes = response.data;
+      console.log('this is all recipes')
+    }.bind(this));
   },
   methods: {
-    addRestaurant: function() {
-      var params = {
-        name: this.name,
-        location: this.location,
-        image: this.image
-      };
-      axios
-        .post("restaurants", params)
-        .then(function(response) {
-          router.push("/restaurants");
-        })
-        .catch(
-          function(error) {
-            this.errors = error.response.data.errors;
-          }.bind(this)
-        );
+    deleteRecipe: function(recipe_id) {
+      axios.delete('/recipes/' + recipe_id).then(function(response) {
+        this.recipes.splice(this.recipes.indexOf(recipe_id), 1).push(response.data);
+        router.push('/recipes');
+      }.bind(this));
+
+
     }
-  }
+  },
+  
+  computed: {}
 };
 
 var RecipePage = {
@@ -270,6 +178,75 @@ var RecipePage = {
   }
 };
 
+
+/////// SIGNUP PAGE \\\\\\\
+var SignupPage = {
+  template: "#signup-page",
+  data: function() {
+    return {      
+    };
+  },
+  
+  methods: {
+    submit: function() {
+      var params = {
+        name: this.name,
+        email: this.email,
+        password: this.password,
+        password_confirmation: this.passwordConfirmation
+      };
+      axios
+        .post("/users", params)
+        .then(function(response) {
+          router.push("/login");
+        })
+        .catch(
+          function(error) {
+            this.errors = error.response.data.errors;
+          }.bind(this)
+        );
+    }
+  },
+  computed: {}
+};
+
+
+/////// LOGIN PAGE \\\\\\\
+var LoginPage = {
+  template: "#login-page",
+  data: function() {
+    return {
+      email: "",
+      password: "",
+      errors: []
+    };
+  },
+  methods: {
+    submit: function() {
+      var params = {
+        auth: { email: this.email, password: this.password }
+      };
+      axios
+        .post("/user_token", params)
+        .then(function(response) {
+          axios.defaults.headers.common["Authorization"] =
+            "Bearer " + response.data.jwt;
+          localStorage.setItem("jwt", response.data.jwt);
+          router.push("/");
+        })
+        .catch(
+          function(error) {
+            this.errors = ["Invalid email or password."];
+            this.email = "";
+            this.password = "";
+          }.bind(this)
+        );
+    }
+  }
+};
+
+
+/////// LOGOUT PAGE \\\\\\\
 var LogoutPage = {
   created: function() {
     axios.defaults.headers.common["Authorization"] = undefined;
@@ -278,6 +255,8 @@ var LogoutPage = {
   }
 };
 
+
+/////// ROUTES \\\\\\\
 var router = new VueRouter({
   routes: [
   { path: "/", component: HomePage },
@@ -285,10 +264,12 @@ var router = new VueRouter({
   { path: "/login", component: LoginPage },
   { path: "/logout", component: LogoutPage },
   { path: "/restaurants/:id/edit", component: EditRestaurantPage },
-  { path: "/restaurants/new", component: NewRestaurantPage },
+  { path: "/restaurants/new", component: RestaurantPage },
   { path: "/restaurants/:id", component: RestaurantPage},
   { path: "/recipes", component: AllRecipes},
-  { path: "/restaurants", component: AllRestaurants}
+  { path: "/restaurants", component: AllRestaurants},
+  { path: "/recipes/new", component: RecipePage },
+  { path: "/recipes/:id", component: RecipePage },
   ],
   scrollBehavior: function(to, from, savedPosition) {
     return { x: 0, y: 0 };

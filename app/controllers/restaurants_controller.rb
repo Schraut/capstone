@@ -1,7 +1,6 @@
 class RestaurantsController < ApplicationController
   
   def index
-    # the_restaurants = Restaurant.all
     p "here is the current user"
     p current_user
     if current_user

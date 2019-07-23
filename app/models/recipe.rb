@@ -1,4 +1,5 @@
 class Recipe < ApplicationRecord
+  belongs_to :user
   
   def as_json
     {

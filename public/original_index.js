@@ -1,5 +1,7 @@
 /* global Vue, VueRouter, axios */
 
+
+/////// Home Page \\\\\\\
 var HomePage = {
   template: "#home-page",
   data: function() {
@@ -18,6 +20,8 @@ var HomePage = {
   computed: {}
 };
 
+
+/////// Signup Page \\\\\\\
 var SignupPage = {
   template: "#signup-page",
   data: function() {
@@ -48,6 +52,8 @@ var SignupPage = {
   computed: {}
 };
 
+
+/////// Login Page \\\\\\\
 var LoginPage = {
   template: "#login-page",
   data: function() {
@@ -82,6 +88,7 @@ var LoginPage = {
 };
 
 
+/////// Logout Page \\\\\\\
 var LogoutPage = {
   created: function() {
     axios.defaults.headers.common["Authorization"] = undefined;
