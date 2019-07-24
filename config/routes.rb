@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
    # user routes
   post 'user_token' => 'user_token#create'
-  post '/users' => 'users#create'
+  post '/v1/users' => 'users#create'
 
   # restaurant routes
   get '/restaurants' => 'restaurants#index'

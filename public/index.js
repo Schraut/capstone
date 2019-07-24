@@ -181,43 +181,6 @@ var RecipePage = {
 };
 
 
-/////// SIGNUP PAGE \\\\\\\
-var SignupPage = {
-  template: "#signup-page",
-  data: function() {
-    return {  
-      name: "",
-      email: "",
-      password: "",
-      passwordConfirmation: "",
-      errors: []    
-    };
-  },
-  
-  methods: {
-    submit: function() {
-      var params = {
-        name: this.name,
-        email: this.email,
-        password: this.password,
-        password_confirmation: this.passwordConfirmation
-      };
-      axios
-        .post("/users", params)
-        .then(function(response) {
-          router.push("/login");
-        })
-        .catch(
-          function(error) {
-            this.errors = error.response.data.errors;
-          }.bind(this)
-        );
-    }
-  },
-  computed: {}
-};
-
-
 /////// LOGIN PAGE \\\\\\\
 var LoginPage = {
   template: "#login-page",
@@ -259,6 +222,42 @@ var LogoutPage = {
     axios.defaults.headers.common["Authorization"] = undefined;
     localStorage.removeItem("jwt");
     router.push("/");
+  }
+};
+
+
+/////// SIGNUP PAGE \\\\\\\
+var SignupPage = {
+  template: "#signup-page",
+  data: function() {
+    return {  
+      name: "",
+      email: "",
+      password: "",
+      passwordConfirmation: "",
+      errors: []    
+    };
+  },
+  
+  methods: {
+    submit: function() {
+      var params = {
+        name: this.name,
+        email: this.email,
+        password: this.password,
+        password_confirmation: this.passwordConfirmation
+      };
+      axios
+        .post("/v1/users", params)
+        .then(function(response) {
+          router.push("/login");
+        })
+        .catch(
+          function(error) {
+            this.errors = error.response.data.errors;
+          }.bind(this)
+        );
+    }
   }
 };
 
