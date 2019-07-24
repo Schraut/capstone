@@ -185,7 +185,12 @@ var RecipePage = {
 var SignupPage = {
   template: "#signup-page",
   data: function() {
-    return {      
+    return {  
+      name: "",
+      email: "",
+      password: "",
+      passwordConfirmation: "",
+      errors: []    
     };
   },
   
